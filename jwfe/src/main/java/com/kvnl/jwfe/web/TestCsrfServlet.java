@@ -58,7 +58,7 @@ public class TestCsrfServlet extends HttpServlet {
 	@CsrfTag(requestMethod = RequestMethod.POST, urlPattern = "/testCsrf/testPost1", key="test")
 	private void testPost1(HttpServletRequest request, HttpServletResponse response) {
 		
-		String paramsName = CsrfProtectionProvider.getInstance().getCsrfReqParamsKey();
+		String paramsName = CsrfProtectionProvider.getInstance().getReqParamsKeyCsrf();
 		String message = request.getParameter(paramsName);
 		
 		response.setCharacterEncoding("UTF-8");
