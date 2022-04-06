@@ -18,24 +18,46 @@ public class CsrfProtectionProvider {
 		return instance;
 	}
 	
-	private String csrfReqParamsKey;
+	private String reqParamsKeyCsrf;
+	
+	private String reqAttrsKeyCsrfKey;
+	
+	private String reqAttrsKeyCsrfValue;
 	
 	private CsrfValidator csrfValidator;
 	
 	private CsrfAnnotationClassReflector csrfAnnotationClassReflector;
 	
 	public CsrfProtectionProvider() {
-		csrfReqParamsKey = CsrfConstant.REQ_PARAMS_KEY_CSRF_TOKEN;
+		reqParamsKeyCsrf = CsrfConstant.REQ_PARAMS_CSRF_TOKEN;
+		reqAttrsKeyCsrfKey = CsrfConstant.REQ_ATTRS_KEY_CSRF_TOKEN_KEY;
+		reqAttrsKeyCsrfValue = CsrfConstant.REQ_ATTRS_KEY_CSRF_TOKEN_VALUE;
 		csrfValidator = new SessionCsrfValidator();
 		csrfAnnotationClassReflector = new CsrfAnnotationClassReflector();
 	}
 	
-	public String getCsrfReqParamsKey() {
-		return csrfReqParamsKey;
+	public String getReqParamsKeyCsrf() {
+		return reqParamsKeyCsrf;
 	}
-	
-	public void setCsrfReqParamsKey(String csrfReqParamsKey) {
-		this.csrfReqParamsKey = csrfReqParamsKey;
+
+	public void setReqParamsKeyCsrf(String reqParamsKeyCsrf) {
+		this.reqParamsKeyCsrf = reqParamsKeyCsrf;
+	}
+
+	public String getReqAttrsKeyCsrfKey() {
+		return reqAttrsKeyCsrfKey;
+	}
+
+	public void setReqAttrsKeyCsrfKey(String reqAttrsKeyCsrfKey) {
+		this.reqAttrsKeyCsrfKey = reqAttrsKeyCsrfKey;
+	}
+
+	public String getReqAttrsKeyCsrfValue() {
+		return reqAttrsKeyCsrfValue;
+	}
+
+	public void setReqAttrsKeyCsrfValue(String reqAttrsKeyCsrfValue) {
+		this.reqAttrsKeyCsrfValue = reqAttrsKeyCsrfValue;
 	}
 
 	public CsrfValidator getCsrfValidator() {

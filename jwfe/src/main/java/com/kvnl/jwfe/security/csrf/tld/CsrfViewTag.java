@@ -14,7 +14,9 @@ public class CsrfViewTag extends TagSupport {
 
 	private static final long serialVersionUID = 1L;
 
-	private String key = null;
+	private String key;
+	
+	private boolean isGenEl;
 	
 	public String getKey() {
 		return this.key;
@@ -23,22 +25,32 @@ public class CsrfViewTag extends TagSupport {
 	public void setKey(String key) {
 		this.key = key;
 	}
+	
+	public boolean getIsGenEl() {
+		return isGenEl;
+	}
+
+	public void setIsGenEl(boolean isGenEl) {
+		this.isGenEl = isGenEl;
+	}
 
 	@Override
 	public int doStartTag() throws JspException {
-		String token = CsrfProtectionProvider.getInstance().getCsrfValidator().generateToken();
 		HttpServletRequest request = (HttpServletRequest) pageContext.getRequest();
 		HttpServletResponse response = (HttpServletResponse) pageContext.getResponse();
+		String token = genRandomCsrfToken();
+		request.setAttribute(getReqAttrsCsrfKey(), key);
+		request.setAttribute(getReqAttrsKeyCsrfValue(), token);
 		CsrfProtectionProvider.getInstance().getCsrfValidator().saveToken(request, response, key, token);
-		
-		JspWriter out = pageContext.getOut();
-		String strCsrfInputHtml = genCsrfInputHtml(token);
-		try {
-			out.println(strCsrfInputHtml);
-		} catch (IOException e) {
-			e.printStackTrace();
+		if (isGenEl) {
+			JspWriter out = pageContext.getOut();
+			String strCsrfInputHtml = genHtmlEl(token);
+			try {
+				out.println(strCsrfInputHtml);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
-		
 		return SKIP_BODY;
 	}
 	
@@ -47,9 +59,25 @@ public class CsrfViewTag extends TagSupport {
 		return EVAL_PAGE;
 	}
 	
-	private String genCsrfInputHtml(String token) {
-		String inputParamsName = CsrfProtectionProvider.getInstance().getCsrfReqParamsKey();
-		return String.format("<input type=\"hidden\" name=\"%s\" value=\"%s\"/>", inputParamsName, token);
+	private String getReqAttrsCsrfKey() {
+		return CsrfProtectionProvider.getInstance().getReqAttrsKeyCsrfKey();
+	}
+	
+	private String getReqAttrsKeyCsrfValue() {
+		return CsrfProtectionProvider.getInstance().getReqAttrsKeyCsrfValue();
+	}
+	
+	private String getReqParamsKeyCsrf() {
+		return CsrfProtectionProvider.getInstance().getReqParamsKeyCsrf();
+	}
+	
+	private String genRandomCsrfToken() {
+		return CsrfProtectionProvider.getInstance().getCsrfValidator().generateToken();
+	}
+	
+	private String genHtmlEl(String token) {
+		String inputName = getReqParamsKeyCsrf();
+		return String.format("<input type=\"hidden\" name=\"%s\" value=\"%s\"/>", inputName, token);
 	}
 	
 }
