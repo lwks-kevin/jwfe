@@ -4,9 +4,10 @@ import com.kvnl.jwfe.security.authentication.configuration.AuthenticationConfigu
 import com.kvnl.jwfe.security.authentication.repository.AuthenticationRepository;
 import com.kvnl.jwfe.security.authentication.service.AuthenticationService;
 import com.kvnl.jwfe.security.authentication.service.AuthorizationService;
+import com.kvnl.jwfe.security.mask.MaskGenerator;
 
 @SuppressWarnings("rawtypes")
-public class AuthenticationManager implements AuthenticationManagerProvider, AuthenticationManagerContext {
+public class AuthenticationManager implements AuthenticationManagerProvider {
 
 	private static AuthenticationManager instance;
 
@@ -24,8 +25,15 @@ public class AuthenticationManager implements AuthenticationManagerProvider, Aut
 	private AuthenticationService authenticationService;
 	private AuthorizationService authorizationService;
 	
+	private MaskGenerator maskGenerator;
+	
 	public AuthenticationManager() {
 		
+	}
+	
+	@Override
+	public AuthenticationManagerContext getContext() {
+		return this;
 	}
 	
 	@Override
@@ -69,8 +77,13 @@ public class AuthenticationManager implements AuthenticationManagerProvider, Aut
 	}
 
 	@Override
-	public AuthenticationManagerContext getContext() {
-		return this;
+	public MaskGenerator getMaskGenerator() {
+		return this.maskGenerator;
 	}
 
+	@Override
+	public void setMaskGenerator(MaskGenerator maskGenerator) {
+		this.maskGenerator = maskGenerator;
+	}
+	
 }

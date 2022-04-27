@@ -7,6 +7,7 @@ import com.kvnl.jwfe.security.authentication.model.SecurityPrincipal;
 import com.kvnl.jwfe.security.authentication.repository.AuthenticationRepository;
 import com.kvnl.jwfe.security.authentication.service.AuthenticationService;
 import com.kvnl.jwfe.security.authentication.service.AuthorizationService;
+import com.kvnl.jwfe.security.mask.MaskGenerator;
 
 public interface AuthenticationManagerContext<X extends SecurityPrincipal<Y>, Y extends SecurityAuthorization<Z>, Z extends SecurityAuthorizationResource> {
 
@@ -25,5 +26,9 @@ public interface AuthenticationManagerContext<X extends SecurityPrincipal<Y>, Y 
 	AuthorizationService<X,Y,Z> getAuthorizationService();
 	
 	void setAuthorizationService(AuthorizationService<X,Y,Z> authorizationService);
+
+	MaskGenerator getMaskGenerator();
+	
+	void setMaskGenerator(MaskGenerator maskGenerator);
 	
 }

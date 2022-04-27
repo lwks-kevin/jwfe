@@ -3,16 +3,16 @@ package com.kvnl.jwfe.security.mask;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
-public class DynamicMd5HashMaskGenerator extends AbstractHashMaskGenerator {
+public class DynamicMd5HashMaskGenerator implements HashMaskGenerator {
 	
     public DynamicMd5HashMaskGenerator() {
     	
     }
-    
+
     @Override
     public String mask(String strToMask) {
-    	return super.mask(strToMask);
-    }
+    	return HashMaskGenerator.super.mask(strToMask);
+    }    
 
 	@Override
 	public String hash(String strToHash) {
